@@ -52,7 +52,7 @@ stem(n_x, x, 'filled')
 title('Señal de entrada x[n]')
 xlabel('n')
 ylabel('x[n]')
-xlim([0, N-1])
+xlim([-50, 250])
 
 % Segundo gráfico: módulo de X[k]
 subplot(3, 2, 2)
@@ -60,7 +60,7 @@ stem(f, abs(X), 'filled')
 title('Espectro de x[n] (|X[k]|)')
 xlabel('Frecuencia (Hz)')
 ylabel('|X[k]|')
-xlim([0, Fs/2])
+xlim([-50, 1000])
 
 % Tercer gráfico: respuesta al impulso h[n] en tiempo
 subplot(3, 2, 3)
@@ -68,7 +68,7 @@ stem(n_h, h, 'filled')
 title('Respuesta al impulso h[n]')
 xlabel('n')
 ylabel('h[n]')
-xlim([0, N-1])
+xlim([-50, 50])
 
 % Cuarto gráfico: módulo de H[k]
 subplot(3, 2, 4)
@@ -76,7 +76,8 @@ stem(f, abs(H), 'filled')
 title('Espectro de h[n] (|H[k]|)')
 xlabel('Frecuencia (Hz)')
 ylabel('|H[k]|')
-xlim([0, Fs/2])
+xlim([0, 900])
+ylim([0,1.5])
 
 % Quinto gráfico: respuesta del sistema y[n] en tiempo
 subplot(3, 2, 5)
@@ -84,7 +85,7 @@ stem(n_y, y, 'filled')
 title('Respuesta del sistema y[n]')
 xlabel('n')
 ylabel('y[n]')
-xlim([0, N-1])
+xlim([0, 300])
 
 % Sexto gráfico: módulo de Y[k]
 subplot(3, 2, 6)
@@ -92,5 +93,4 @@ stem(f, abs(Y), 'filled')
 title('Espectro de y[n] (|Y[k]|)')
 xlabel('Frecuencia (Hz)')
 ylabel('|Y[k]|')
-xlim([0, Fs/2])
-
+xlim([0, Fs])
