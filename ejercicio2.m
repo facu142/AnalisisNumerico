@@ -7,7 +7,8 @@ close all
 dt = 0.0003;
 
 % Nx: Número total de muestras de la señal x(t) para formar la señal x[n]
-%Se define el número total de muestras (Nx) para la señal.Nx = 201;
+%Se define el número total de muestras (Nx) para la señal.
+Nx = 201;
 
 % t: Se crea un vector t que contiene los puntos en el tiempo continuo, desde 0 hasta (Nx-1)*dt, con un total de Nx puntos..
 t = 0:dt:(Nx-1)*dt; % Ajuste para asegurar que t tiene exactamente Nx puntos
