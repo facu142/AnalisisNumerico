@@ -6,8 +6,6 @@
 dt = 0.0003
 Nx = 201
 
-
-
 t = 0:dt:1
 x_analog= 2*cos(2*pi*50*t) + 3*sin(2*pi*500*t)
 
