@@ -1,3 +1,7 @@
+clc
+clear
+close all
+
 % Parámetros
 Fs = 1000; % Frecuencia de muestreo (Hz)
 Ts = 1/Fs; % Período de muestreo (s)
@@ -55,7 +59,7 @@ stem(n_x, x, 'filled', 'MarkerSize', marker_size)
 title('Señal de entrada x[n]')
 xlabel('n')
 ylabel('x[n]')
-xlim([-50, 250])
+xlim([-50, 300])
 
 % Segundo gráfico: módulo de X[k]
 subplot(3, 2, 2)
@@ -63,7 +67,7 @@ stem(f, abs(X), 'filled', 'MarkerSize', marker_size)
 title('Espectro de x[n] (|X[k]|)')
 xlabel('Frecuencia (Hz)')
 ylabel('|X[k]|')
-xlim([-50, 1000])
+xlim([0, 1000])
 
 % Tercer gráfico: respuesta al impulso h[n] en tiempo
 subplot(3, 2, 3)
@@ -71,7 +75,7 @@ stem(n_h, h, 'filled', 'MarkerSize', marker_size)
 title('Respuesta al impulso h[n]')
 xlabel('n')
 ylabel('h[n]')
-xlim([-50, 50])
+xlim([-50, 300])
 
 % Cuarto gráfico: módulo de H[k]
 subplot(3, 2, 4)
@@ -79,7 +83,7 @@ stem(f, abs(H), 'filled', 'MarkerSize', marker_size)
 title('Espectro de h[n] (|H[k]|)')
 xlabel('Frecuencia (Hz)')
 ylabel('|H[k]|')
-xlim([0, 900])
+xlim([0, 1000])
 ylim([0,1.5])
 
 % Quinto gráfico: respuesta del sistema y[n] en tiempo
