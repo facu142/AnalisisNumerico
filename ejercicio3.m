@@ -1,96 +1,85 @@
-% Parámetros
-Fs = 1000; % Frecuencia de muestreo (Hz)
-Ts = 1/Fs; % Período de muestreo (s)
+clc
+clear
+close all
 
-% Definición de la señal analógica x(t)
-t = 0:Ts:0.2; % Vector de tiempo continuo (201 muestras)
-x_analog = 2*cos(2*pi*50*t) + 3*sin(2*pi*500*t); % Señal analógica x(t)
+dt = 0.0003;   % Intervalo de tiempo
+Nx = 201;  % Cantidad de muestras
 
-% Definición de la señal de entrada en tiempo discreto x[n]
-Nx = length(t); % Número de muestras
-x = 2*cos(2*pi*50*t) + 3*sin(2*pi*500*t); % Señal de entrada x[n]
+t = 0:dt:(Nx-1)*dt;
 
-% Parámetros de la respuesta al impulso h[n]
-Fc = 200; % Frecuencia de corte (Hz)
-Nh = 101; % Longitud de la respuesta al impulso (debe ser impar)
-nh = -(Nh-1)/2:(Nh-1)/2; % Vector de tiempo para h[n]
-h = 2*Fc*Ts*sinc(2*Fc*Ts*nh); % Respuesta al impulso h[n]
+x_analog = 2*cos(2*pi*50*t) + 3*sin(2*pi*500*t);
 
-% Dimensión N = 2^r
-N = 2^nextpow2(Nx + Nh - 1); % Dimensión final
+n = 0:Nx-1;
 
-% Cero-padding de x[n] y h[n]
-x_pad = [x, zeros(1, N - Nx)];
-h_pad = [h, zeros(1, N - Nh)];
+x = 2*cos(2*pi*50*n*dt) + 3*sin(2*pi*500*n*dt); % Señal de entrada x[n]
 
-% Transformadas de Fourier
+Fc = 200; % Frecuencia de corte
+Nh = 101; % Longitud de la respuesta al impulso
+nh = -(Nh-1)/2:(Nh-1)/2;
+
+h = 2*Fc*dt*sinc(2*Fc*dt*nh);
+
+% Redefinir vectores x[n] y h[n] con dimensión N = 2^r
+N = 2^nextpow2(Nx + length(nh) - 1);
+
+x_pad = [x, zeros(1, N - length(x))];
+h_pad = [h, zeros(1, N - length(h))];
+
+% Realizar la convolución utilizando FFT
 X = fft(x_pad);
 H = fft(h_pad);
-
-% Convolución en el dominio de la frecuencia
 Y = X .* H;
+y_fft = ifft(Y);
 
-% Transformada inversa para obtener y[n]
-y = ifft(Y);
+ny = 0:N-1;
 
-% Gráficos
-
-% Dominios de tiempo
-n_x = 0:Nx-1;
-n_h = -(Nh-1)/2:(Nh-1)/2;
-n_y = 0:N-1;
-
-% Dominios de frecuencia
-k = 0:N-1;
-f = k*Fs/N; % Vector de frecuencias en Hz
-
+% Crear gráficos
 figure()
 
-% Primer gráfico: señal de entrada x[n] en tiempo
+% Primer gráfico: señal de entrada x[n]
 subplot(3, 2, 1)
-stem(n_x, x, 'filled')
+stem(0:N-1, x_pad, 'filled')
 title('Señal de entrada x[n]')
-xlabel('n')
 ylabel('x[n]')
-xlim([-50, 250])
+xlim([-50, 300])
 
-% Segundo gráfico: módulo de X[k]
+% Segundo gráfico: módulo de la FFT de x[n]
 subplot(3, 2, 2)
-stem(f, abs(X), 'filled')
+stem(0:N-1, abs(X), 'filled')
 title('Espectro de x[n] (|X[k]|)')
 xlabel('Frecuencia (Hz)')
 ylabel('|X[k]|')
-xlim([-50, 1000])
+xlim([0, 510])
 
-% Tercer gráfico: respuesta al impulso h[n] en tiempo
+% Tercer gráfico: respuesta al impulso h[n]
 subplot(3, 2, 3)
-stem(n_h, h, 'filled')
+stem(0:N-1, h_pad, 'filled')
 title('Respuesta al impulso h[n]')
 xlabel('n')
 ylabel('h[n]')
-xlim([-50, 50])
+xlim([-50, 300])
 
-% Cuarto gráfico: módulo de H[k]
+% Cuarto gráfico: módulo de la FFT de h[n]
 subplot(3, 2, 4)
-stem(f, abs(H), 'filled')
+stem(0:N-1, abs(H), 'filled')
 title('Espectro de h[n] (|H[k]|)')
 xlabel('Frecuencia (Hz)')
 ylabel('|H[k]|')
-xlim([0, 900])
+xlim([0, 510])
 ylim([0,1.5])
 
-% Quinto gráfico: respuesta del sistema y[n] en tiempo
+% Quinto gráfico: respuesta del sistema y[n] (en el tiempo)
 subplot(3, 2, 5)
-stem(n_y, y, 'filled')
+stem(0:N-1, y_fft, 'filled')
 title('Respuesta del sistema y[n]')
 xlabel('n')
 ylabel('y[n]')
 xlim([0, 300])
 
-% Sexto gráfico: módulo de Y[k]
+% Sexto gráfico: módulo de la FFT de y[n]
 subplot(3, 2, 6)
-stem(f, abs(Y), 'filled')
+stem(0:N-1, abs(Y), 'filled')
 title('Espectro de y[n] (|Y[k]|)')
 xlabel('Frecuencia (Hz)')
 ylabel('|Y[k]|')
-xlim([0, Fs])
+xlim([0, 510])
