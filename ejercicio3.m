@@ -22,6 +22,7 @@ h = 2*Fc*dt*sinc(2*Fc*dt*nh);
 % vectores x[n] y h[n] con dimensión N = 2^r
 N = 2^nextpow2(Nx + length(nh) - 1);
 
+% Cero-padding de x[n] y h[n]
 x_pad = [x, zeros(1, N - length(x))];
 h_pad = [h, zeros(1, N - length(h))];
 
