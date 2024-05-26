@@ -19,13 +19,13 @@ nh = -(Nh-1)/2:(Nh-1)/2;
 
 h = 2*Fc*dt*sinc(2*Fc*dt*nh);
 
-% Redefinir vectores x[n] y h[n] con dimensión N = 2^r
+% vectores x[n] y h[n] con dimensión N = 2^r
 N = 2^nextpow2(Nx + length(nh) - 1);
 
 x_pad = [x, zeros(1, N - length(x))];
 h_pad = [h, zeros(1, N - length(h))];
 
-% Realizar la convolución utilizando FFT
+% convolución utilizando FFT
 X = fft(x_pad);
 H = fft(h_pad);
 Y = X .* H;
@@ -33,7 +33,7 @@ y_fft = ifft(Y);
 
 ny = 0:N-1;
 
-% Crear gráficos
+% gráficos
 figure()
 
 % Primer gráfico: señal de entrada x[n]
