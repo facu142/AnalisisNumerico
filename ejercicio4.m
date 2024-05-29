@@ -3,10 +3,8 @@ clear;
 close all;
 
 % Parámetros
-
-Fm = 3333;           % Frecuencia de muestreo
 Nx = 201;            % Cantidad de muestras de la señal
-
+Fm = 3333;           % Frecuencia de muestreo
 
 n = 0:Nx-1;
 
@@ -22,7 +20,7 @@ nh = -(Nh-1)/2:(Nh-1)/2;
 hv = 2*Fc/Fm*sinc(2*Fc/Fm*nh) .* hamming(Nh).';
 hvn = hv / sum(hv);      % Normalización
 
-% Convolución en el tiempo
+% Convolución en el tiempo (filtrada)
 y_tiempo = conv(x, hvn, 'same');
 
 % Vectores x[n] y h[n] con dimensión N = 2^r
