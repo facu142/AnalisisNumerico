@@ -56,7 +56,7 @@ ylabel('h[n]');
 xlim([min(nh)/Fm, max(nh)/Fm]);
 
 subplot(4, 2, 5);
-stem(n/Fm, y_time, 'filled');
+stem(n/Fm, y_tiempo, 'filled');
 title('Respuesta del sistema y[n] (Convolución)');
 xlabel('Tiempo (s)');
 ylabel('y[n]');
@@ -87,7 +87,7 @@ ylabel('|H[k]|');
 xlim([0, Fm]);
 
 subplot(4, 2, 6);
-stem(frequencies, abs(fft(y_time, N)), 'filled');
+stem(frequencies, abs(fft(y_tiempo, N)), 'filled');
 title('Espectro de y[n] (Convolución)');
 xlabel('Frecuencia (Hz)');
 ylabel('|Y[k]|');
