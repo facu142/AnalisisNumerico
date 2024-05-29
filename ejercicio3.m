@@ -7,7 +7,7 @@ Nx = 201;  % Cantidad de muestras
 
 t = 0:dt:(Nx-1)*dt;
 
-x_analog = 2*cos(2*pi*50*t) + 3*sin(2*pi*500*t);
+
 
 n = 0:Nx-1;
 
