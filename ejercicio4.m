@@ -1,13 +1,14 @@
+clc;
 clear;
 close all;
-clc;
 
 % Parámetros
-Nx = 201;            % Cantidad de muestras
+
 Fm = 3333;           % Frecuencia de muestreo
+Nx = 201;            % Cantidad de muestras de la señal
 
 
-n = 0:Nx-1;          % Vector de muestras
+n = 0:Nx-1;
 
 % Señal de entrada x[n]
 x = 2*cos(2*pi*50/Fm*n) + 3*sin(2*pi*500/Fm*n);
@@ -18,18 +19,18 @@ Nh = 101;            % Longitud de la respuesta al impulso
 nh = -(Nh-1)/2:(Nh-1)/2;
 
 % Respuesta al impulso h[n] usando ventana de Hamming
-hv = 2*Fc/Fm*sinc(2*Fc/Fm*nh) .* hamming(Nh)';
+hv = 2*Fc/Fm*sinc(2*Fc/Fm*nh) .* hamming(Nh).';
 hvn = hv / sum(hv);      % Normalización
 
-% Convolución en el tiempo (filtrada)
-y_tiempo = conv(x, hv, 'same');
+% Convolución en el tiempo
+y_tiempo = conv(x, hvn, 'same');
 
 % Vectores x[n] y h[n] con dimensión N = 2^r
 N = 2^nextpow2(Nx + length(nh) - 1);
 
 % Cero-padding de x[n] y h[n]
 x_pad = [x, zeros(1, N - length(x))];
-h_pad = [hvn, zeros(1, N - length(hv))];
+h_pad = [hvn, zeros(1, N - length(hvn))];
 
 % Convolución utilizando FFT
 X = fft(x_pad);
@@ -46,10 +47,10 @@ stem(n/Fm, x, 'filled');
 title('Señal de entrada x[n]');
 xlabel('Tiempo (s)');
 ylabel('x[n]');
-xlim([0, 0.06]);
+xlim([0, (Nx-1)/Fm]);
 
 subplot(4, 2, 3);
-stem(nh/Fm, hv, 'filled');
+stem(nh/Fm, hvn, 'filled');
 title('Respuesta al impulso h[n] (Hamming)');
 xlabel('Tiempo (s)');
 ylabel('h[n]');
@@ -70,34 +71,32 @@ ylabel('y[n]');
 xlim([0, (Nx-1)/Fm]);
 
 % Segunda columna: módulos de los espectros
-frequencies = (0:N-1)*(Fm/N);
+frequencias = (0:N-1)*(Fm/N);
 
 subplot(4, 2, 2);
-stem(frequencies, abs(X), 'filled');
+stem(frequencias, abs(X), 'filled');
 title('Espectro de x[n] (|X[k]|)');
 xlabel('Frecuencia (Hz)');
 ylabel('|X[k]|');
 xlim([0, Fm]);
 
 subplot(4, 2, 4);
-stem(frequencies, abs(H), 'filled');
+stem(frequencias, abs(H), 'filled');
 title('Espectro de h[n] (|H[k]|)');
 xlabel('Frecuencia (Hz)');
 ylabel('|H[k]|');
 xlim([0, Fm]);
 
 subplot(4, 2, 6);
-stem(frequencies, abs(fft(y_tiempo, N)), 'filled');
+stem(frequencias, abs(fft(y_tiempo, N)), 'filled');
 title('Espectro de y[n] (Convolución)');
 xlabel('Frecuencia (Hz)');
 ylabel('|Y[k]|');
 xlim([0, Fm]);
 
 subplot(4, 2, 8);
-stem(frequencies, abs(Y), 'filled');
+stem(frequencias, abs(Y), 'filled');
 title('Espectro de y[n] (FFT)');
 xlabel('Frecuencia (Hz)');
 ylabel('|Y[k]|');
 xlim([0, Fm]);
-
-
