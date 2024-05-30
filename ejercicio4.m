@@ -45,28 +45,28 @@ stem(n/Fm, x, 'filled');
 title('Señal de entrada x[n]');
 xlabel('Tiempo (s)');
 ylabel('x[n]');
-xlim([0, (Nx-1)/Fm]);
+xlim([-0.010, ((Nx-1)/Fm) + 0.010]);
 
 subplot(4, 2, 3);
 stem(nh/Fm, hvn, 'filled');
 title('Respuesta al impulso h[n] (Hamming)');
 xlabel('Tiempo (s)');
 ylabel('h[n]');
-xlim([0, (Nx-1)/Fm]);
+xlim([-0.010, ((Nx-1)/Fm) + 0.010]);
 
 subplot(4, 2, 5);
 stem(n/Fm, y_tiempo, 'filled');
 title('Respuesta del sistema y[n] (Convolución)');
 xlabel('Tiempo (s)');
 ylabel('y[n]');
-xlim([0, (Nx-1)/Fm]);
+xlim([-0.010, ((Nx-1)/Fm) + 0.010]);
 
 subplot(4, 2, 7);
 stem(n/Fm, y_fft(1:Nx), 'filled');
 title('Respuesta del sistema y[n] (FFT)');
 xlabel('Tiempo (s)');
 ylabel('y[n]');
-xlim([0, (Nx-1)/Fm]);
+xlim([-0.010, ((Nx-1)/Fm) + 0.010]);
 
 % Segunda columna: módulos de los espectros
 frequencias = (0:N-1)*(Fm/N);
