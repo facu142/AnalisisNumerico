@@ -52,7 +52,7 @@ stem(nh/Fm, hvn, 'filled');
 title('Respuesta al impulso h[n] (Hamming)');
 xlabel('Tiempo (s)');
 ylabel('h[n]');
-xlim([min(nh)/Fm, max(nh)/Fm]);
+xlim([0, (Nx-1)/Fm]);
 
 subplot(4, 2, 5);
 stem(n/Fm, y_tiempo, 'filled');
